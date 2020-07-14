@@ -317,4 +317,42 @@ Viewed as a scheduling problem, we want to come up with a schedule $S$, which is
 \item There should be no other schedule $S'$ which has lower cost than $S$.
 \end{enumerate}
 
+\section{Scheduling Algorithms}
+
+In this section, we present the various algorithms we design and implement to solve the problem presented in the above sections.
+
+We view the scheduling problem as having the following two components
+\begin{enumerate}
+\item \emph{Generation of skeletal sequence}, wherein the dependence graph is used to generate a sequence of essential actions.
+\item \emph{Introduction of sanitisation}, wherein sanitisation actions are inserted to achieve the scheduling objectives in an optimal way.
+\end{enumerate}
+
+\subsection{Generation of skeletal sequence}
+The first step is a variant of the well-known topological sort algorithm which runs on the dependency graph and generates a valid total ordering of the essential actions. That algorithm maintains a ready list of actions, i.e. actions which have none of the dependence actions (from the DAG) pending. Out of this ready list the algorithm picks up one which it deems the best to be dispatched next based on a heuristic. This is the step where this algorithm differs from the traditional topological sort algorithm.
+
+\begin{algorithm}
+\begin{algorithmic}[0]
+\Procedure{skeletan-sequence}{$D : DAG$}
+  \State $schedule \gets$ \texttt{[]}
+  \State $ready \gets$ $[D.root]$
+  \While{$ready \neq $ \texttt{[]}}
+    \State $a \gets$ \Call{best-action}{$ready$}
+    \State Pop $a$ from $ready$
+    \State $dep \gets$ $a.succ$ \Comment{$a.succ$ : the list of $a$'s successors}
+    \State Add all elements of $dep$ to $ready$
+    \State Add $a$ to $schedule$
+  \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\section{Introduction of Sanitisation}
+\subsection{Branch and Bound Algorithm}
+
+\subsection{Genetic Algorithms}
+
+\section{To Do}
+\begin{enumerate}
+\item Complexity analysis of the problem
+\end{enumerate}
 \end{document}
